@@ -44,16 +44,30 @@
       <button onclick="showTab('orders')">📦 Ordrar</button>
     </div>
 
-    <!-- ADD -->
-    <div id="tab-add" class="panel tab">
-      <h3>Lägg till kort</h3>
+   <!-- ADD -->
+<div id="tab-add" class="panel tab">
+  <h3>Lägg till kort</h3>
 
-      <input id="name" placeholder="Namn">
-      <input id="price" type="number" placeholder="Pris">
-      <input type="file" id="imageInput">
+  <input id="name" placeholder="Namn">
+  <input id="price" type="number" placeholder="Pris">
+  <input type="file" id="imageInput">
 
-      <button onclick="addCard()">Lägg till</button>
-    </div>
+  <h4>Kategori</h4>
+
+  <label>
+    <input type="checkbox" id="catPokemon"> Pokémon
+  </label>
+
+  <label>
+    <input type="checkbox" id="catOnePiece"> One Piece
+  </label>
+
+  <label>
+    <input type="checkbox" id="catBooster"> Booster Pack
+  </label>
+
+  <button onclick="addCard()">Lägg till</button>
+</div>
 
     <!-- MANAGE -->
     <div id="tab-manage" class="panel tab" style="display:none;">

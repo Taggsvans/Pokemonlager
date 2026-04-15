@@ -1,9 +1,10 @@
 /* =========================
    TOPBAR
 ========================= */
+
 .topbar{
-  display:flex;
-  justify-content:space-between;
+  display:grid;
+  grid-template-columns: 60px 1fr 120px;
   align-items:center;
   padding:14px;
   background: var(--bg);
@@ -12,10 +13,27 @@
   z-index:100;
 }
 
+/* LOGO CENTRERAD */
 .logo{
   font-weight:900;
-  color:#2563eb;
+  color:var(--text);
+  text-align:center;
+  font-size:18px;
 }
+
+/* RIGHT SIDE BUTTONS */
+.topbar-right{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.topbar button{
+background-color: transparent;
+font-size: 1.2em;
+color: var(--text);
+}
+
 
 /* =========================
    HERO IMAGE
@@ -78,11 +96,54 @@
 }
 
 .modal-box{
-  background:white;
   padding:20px;
   border-radius:16px;
   width:90%;
   max-width:400px;
+}
+
+/* =========================
+   Hamburgermeny
+========================= */
+.menu{
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    background: #1b203be3;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    z-index: 1000;
+    height: 100%;
+    width: 310px;
+}
+
+.menu button{
+    background-color: #286f16;
+    font-size:26px;
+}
+
+.menu-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:900;
+}
+
+.hidden{
+  display:none;
+}
+
+.hidden{
+  display:none;
+}
+
+.hamburger{
+  font-size:26px;
+  cursor:pointer;
 }
 
 /* =========================

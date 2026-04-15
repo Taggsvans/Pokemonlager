@@ -136,3 +136,27 @@ function loadTheme(){
 }
 
 document.addEventListener("DOMContentLoaded", loadTheme);
+
+/* =========================
+   Hamburgarmeny
+========================= */
+
+function toggleMenu(){
+  const menu = document.getElementById("menu");
+  const overlay = document.getElementById("menuOverlay");
+
+  if(!menu || !overlay) return;
+
+  menu.classList.toggle("hidden");
+  overlay.classList.toggle("hidden");
+}
+
+function closeMenu(){
+  const menu = document.getElementById("menu");
+  const overlay = document.getElementById("menuOverlay");
+
+  if(!menu || !overlay) return;
+
+  menu.classList.add("hidden");
+  overlay.classList.add("hidden");
+}

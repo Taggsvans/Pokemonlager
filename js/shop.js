@@ -3,23 +3,30 @@ db.ref("cards").on("value", snap=>{
   render();
 });
 
-/* =========================
-   RENDER SHOP
-========================= */
+let activeCategory = "all";
+
+function setCategory(cat){
+  activeCategory = cat;
+  render();
+}
+
 function render(){
   const grid = document.getElementById("grid");
   if(!grid) return;
 
-  const searchInput = document.getElementById("search");
-  const s = searchInput ? searchInput.value.toLowerCase() : "";
+  const search = (document.getElementById("search")?.value || "").toLowerCase();
 
   grid.innerHTML = "";
 
-  Object.keys(cards).forEach(key=>{
+  Object.keys(cards).forEach(key => {
     const c = cards[key];
     if(!c?.name) return;
 
-    if(!c.name.toLowerCase().includes(s)) return;
+    // 🔍 search filter
+    if(!c.name.toLowerCase().includes(search)) return;
+
+    // 📂 category filter (HÄR ÄR MAGICEN)
+    if(activeCategory !== "all" && c.category !== activeCategory) return;
 
     grid.innerHTML += `
       <div class="card">
@@ -33,10 +40,11 @@ function render(){
     `;
   });
 }
+/* SEARCH */
+document.addEventListener("DOMContentLoaded", ()=>{
+  const searchInput = document.getElementById("search");
 
-/* LIVE SEARCH (viktig fix) */
-document.addEventListener("input", e=>{
-  if(e.target.id === "search"){
-    render();
+  if(searchInput){
+    searchInput.addEventListener("input", render);
   }
 });

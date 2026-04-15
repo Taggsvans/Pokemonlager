@@ -55,28 +55,44 @@ function showTab(tab){
    ADD CARD
 ========================= */
 function addCard(){
-  const nameInput = document.getElementById("name");
-  const priceInput = document.getElementById("price");
-
-  const name = nameInput.value.trim();
-  const price = parseFloat(priceInput.value) || 0;
+  const name = document.getElementById("name").value.trim();
+  const price = parseFloat(document.getElementById("price").value) || 0;
 
   if(!name) return alert("Skriv namn!");
 
   const id = Date.now();
 
+  // 📦 KATEGORI LOGIK
+  let category = "uncategorized";
+
+  if(document.getElementById("catPokemon").checked){
+    category = "pokemon";
+  }
+  else if(document.getElementById("catOnePiece").checked){
+    category = "onepiece";
+  }
+  else if(document.getElementById("catBooster").checked){
+    category = "booster";
+  }
+
   cards[id] = {
     name,
     price,
-    image: currentImage || ""
+    image: currentImage || "",
+    category: category   // ⭐ VIKTIGT
   };
 
   db.ref("cards").set(cards);
 
-  // reset
-  nameInput.value = "";
-  priceInput.value = "";
+  // reset form
+  document.getElementById("name").value = "";
+  document.getElementById("price").value = "";
   document.getElementById("imageInput").value = "";
+
+  document.getElementById("catPokemon").checked = false;
+  document.getElementById("catOnePiece").checked = false;
+  document.getElementById("catBooster").checked = false;
+
   currentImage = "";
 }
 
