@@ -4,19 +4,35 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TCG Store</title>
+<title>EKEM CARDS</title>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script src="js/firebase.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+
+<link rel="stylesheet" href="cart.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="shop.css">
 </head>
 
 <body>
 
 <div class="topbar">
-  <div class="logo">🎴 TCG Store</div>
-  <button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
+  <div class="logo">🎴 TCG Butiken</div>
+
+  <div style="display:flex; gap:10px;">
+    <button onclick="toggleTheme()">🌙</button>
+    <button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
+  </div>
+</div>
+
+<div class="hero">
+  <img class="EkemCards" src="EkemCards.png" alt="Banner">
 </div>
 
 <div class="container">
@@ -39,13 +55,23 @@
   <button onclick="checkout()">Checkout</button>
 </div>
 
+<!-- CHECKOUT -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <h3>Checkout</h3>
 
-    <input id="custName" placeholder="Namn">
+    <input id="custName" placeholder="Fullständigt namn">
     <input id="custEmail" placeholder="Email">
     <input id="custPhone" placeholder="Telefon">
+
+    <input id="custAddress" placeholder="Adress">
+
+    <div style="display:flex; gap:8px;">
+      <input id="custZip" placeholder="Postnummer">
+      <input id="custCity" placeholder="Ort">
+    </div>
+
+    <input id="custCountry" placeholder="Land" value="Sverige">
 
     <div id="checkoutSummary"></div>
 
@@ -58,6 +84,41 @@
   <img id="imgModalContent">
 </div>
 
-<script src="app.js"></script>
+<footer class="footer">
+
+  <div class="footer-content">
+
+    <!-- LOGO / TEXT -->
+    <div class="footer-section">
+      <h3>🎴 TCG Butiken</h3>
+      <p>Köp samlarkort enkelt och säkert.</p>
+    </div>
+
+    <!-- KONTAKT -->
+    <div class="footer-section">
+      <h4>Kontakt</h4>
+      <p>Email: tcgbutiken@gmail.com</p>
+      <p>Telefon: 070-123 45 67</p>
+    </div>
+
+    <!-- SOCIALA MEDIER -->
+    <div class="footer-section">
+      <h4>Följ oss</h4>
+
+      <a href="https://www.tiktok.com/@the.emberthal?is_from_webapp=1&sender_device=pc" target="_blank">
+        🎵 TikTok
+      </a>
+
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 TCG Butiken sida skapad av Johan Rindstig
+  </div>
+
+</footer>
+
+
 </body>
 </html>
