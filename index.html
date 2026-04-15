@@ -22,24 +22,45 @@
 
 <body>
 
+<!-- ================= TOPBAR ================= -->
 <div class="topbar">
+
+  <!-- HAMBURGER -->
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+  <!-- LOGO -->
   <div class="logo">EKEM CARDS</div>
 
-  <div style="display:flex; gap:10px;">
+  <!-- RIGHT -->
+  <div class="topbar-right">
     <button onclick="toggleTheme()">🌙</button>
     <button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
   </div>
+
 </div>
 
+<!-- ================= HAMBURGER MENU ================= -->
+<div id="menuOverlay" class="menu-overlay hidden" onclick="closeMenu()"></div>
+
+<div id="menu" class="menu hidden">
+  <button onclick="setCategory('all'); closeMenu();">Alla</button>
+  <button onclick="setCategory('pokemon'); closeMenu();">Pokémon</button>
+  <button onclick="setCategory('onepiece'); closeMenu();">One Piece</button>
+  <button onclick="setCategory('booster'); closeMenu();">Booster</button>
+</div>
+
+<!-- ================= HERO ================= -->
 <div class="hero">
   <img class="EkemCards" src="EkemCards.png" alt="Banner">
 </div>
 
+<!-- ================= SHOP GRID ================= -->
 <div class="container">
   <input id="search" placeholder="🔍 Sök kort...">
   <div id="grid" class="grid"></div>
 </div>
 
+<!-- ================= CART OVERLAY ================= -->
 <div id="cartOverlay" onclick="toggleCart()"></div>
 
 <div id="cart" class="cart">
@@ -51,13 +72,13 @@
   <div id="cartItems"></div>
   <div id="total"></div>
 
-<div class="cart-actions">
-  <button class="clear" onclick="clearCart()">🧹 Töm kundvagn</button>
-  <button class="checkout" onclick="checkout()">Checkout</button>
-</div>
+  <div class="cart-actions">
+    <button class="clear" onclick="clearCart()">🧹 Töm kundvagn</button>
+    <button class="checkout" onclick="checkout()">Checkout</button>
+  </div>
 </div>
 
-<!-- CHECKOUT -->
+<!-- ================= CHECKOUT MODAL ================= -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <h3>Checkout</h3>
@@ -82,35 +103,32 @@
   </div>
 </div>
 
+<!-- ================= IMAGE MODAL ================= -->
 <div id="imgModal" class="img-modal" onclick="closeImageModal()">
   <img id="imgModalContent">
 </div>
 
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
 
   <div class="footer-content">
 
-    <!-- LOGO / TEXT -->
     <div class="footer-section">
       <h3>EKEM CARDS</h3>
       <p>Köp samlarkort enkelt och säkert.</p>
     </div>
 
-    <!-- KONTAKT -->
     <div class="footer-section">
       <h4>Kontakt</h4>
       <p>Email: ekemcards@gmail.com</p>
       <p>Telefon: 070-123 45 67</p>
     </div>
 
-    <!-- SOCIALA MEDIER -->
     <div class="footer-section">
       <h4>Följ oss</h4>
-
       <a href="https://www.tiktok.com/@the.emberthal?is_from_webapp=1&sender_device=pc" target="_blank">
-         TikTok
+        TikTok
       </a>
-
     </div>
 
   </div>
@@ -120,7 +138,6 @@
   </div>
 
 </footer>
-
 
 </body>
 </html>
