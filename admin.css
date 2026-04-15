@@ -1,0 +1,124 @@
+/* =========================
+   ADMIN NAV
+========================= */
+.admin-nav{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.admin-nav button{
+  flex:1;
+  background:white;
+  color:#2563eb;
+  border:1px solid #e5e7eb;
+}
+
+.admin-nav button:hover{
+  background:#2563eb;
+  color:white;
+}
+
+/* =========================
+   ADMIN CARDS
+========================= */
+.admin-card{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:12px;
+  margin-top:10px;
+  background:white;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.06);
+}
+
+.admin-thumb{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.admin-fields{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.admin-fields input{
+  padding:6px 8px;
+  font-size:13px;
+  border-radius:10px;
+}
+
+.delete-btn{
+  background:#ef4444;
+  padding:8px 10px;
+}
+
+/* =========================
+   ORDERS
+========================= */
+.order-card{
+  background:white;
+  color: black;
+  padding:14px;
+  margin-top:12px;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.06);
+}
+
+.order-card label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:600;
+  margin-bottom:10px;
+  cursor:pointer;
+}
+
+.orderCheck{
+  width:18px;
+  height:18px;
+  accent-color:#2563eb;
+}
+
+/* ORDER ITEMS */
+.order-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.order-item img{
+  width:45px;
+  height:45px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.admin-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.logout-btn{
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:700;
+  transition:0.2s;
+}
+
+.logout-btn:hover{
+  background:#dc2626;
+  transform:translateY(-1px);
+}

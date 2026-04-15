@@ -1,0 +1,138 @@
+/* =========================
+   TOPBAR
+========================= */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  background: var(--bg);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-weight:900;
+  color:#2563eb;
+}
+
+/* =========================
+   HERO IMAGE
+========================= */
+.EkemCards{
+  width:100vw;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* =========================
+   GRID
+========================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:14px;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,0.05);
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+}
+
+.card img{
+  width:100%;
+  height:294px;
+  object-fit:cover;
+}
+
+.card-body{
+  padding:12px;
+}
+
+.price{
+  color:#16a34a;
+  font-weight:700;
+  margin:6px 0;
+}
+
+/* =========================
+   MODAL
+========================= */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:300;
+}
+
+.modal-box{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  width:90%;
+  max-width:400px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  margin-top:40px;
+  padding:30px 15px 10px;
+  background:var(--card);
+  border-top:1px solid var(--border);
+}
+
+.footer-content{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+
+.footer-section h3,
+.footer-section h4{
+  margin-bottom:8px;
+}
+
+.footer-section p{
+  font-size:14px;
+  opacity:0.8;
+}
+
+.footer-section a{
+  display:inline-block;
+  margin-top:5px;
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:600;
+}
+
+.footer-section a:hover{
+  text-decoration:underline;
+}
+
+.footer-bottom{
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+  opacity:0.6;
+}
+
+.footer-section{
+    text-align: center;
+}

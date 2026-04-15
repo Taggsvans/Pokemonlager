@@ -4,19 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="favicon.png">
-<title>Admin TCG Store</title>
+<title>Admin EKEM CARDS</title>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="js/firebase.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/orders.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script> <!-- sist -->
+
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="admin.css">
 </head>
 
 <body>
 
 <div class="container">
 
+   <div class="admin-header">
   <h2>Admin Panel</h2>
+  <button class="logout-btn" onclick="logout()">Logga ut</button>
+</div>
 
   <div id="loginBox" class="panel">
     <input id="pass" type="password" placeholder="Lösenord">
@@ -24,7 +38,6 @@
   </div>
 
   <div id="adminPanel" style="display:none;">
-
     <div class="admin-nav">
       <button onclick="showTab('add')">➕ Lägg till</button>
       <button onclick="showTab('manage')">🔍 Hantera</button>
@@ -66,6 +79,5 @@
   <img id="imgModalContent">
 </div>
 
-<script src="app.js"></script>
 </body>
 </html>
