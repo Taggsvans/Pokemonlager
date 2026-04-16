@@ -43,6 +43,7 @@ color: var(--text);
   height:100%;
   object-fit:cover;
   display:block;
+  margin-top: 25px;
 }
 
 /* =========================
