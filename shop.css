@@ -108,7 +108,7 @@ color: var(--text);
 ========================= */
 .menu{
     position: fixed;
-    top: 60px;
+    top: 75px;
     left: 10px;
     background: #1b203be3;
     padding: 10px;
