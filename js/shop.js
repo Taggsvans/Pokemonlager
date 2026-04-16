@@ -44,20 +44,26 @@ function render(){
 
     if(activeCategory !== "all" && c.category !== activeCategory) return;
 
-    grid.innerHTML += `
-      <div class="card">
-        ${c.image ? `<img src="${c.image}" onclick="openImage('${c.image}')">` : ""}
-        <div class="card-body">
-          <b>${c.name}</b>
-          <div class="price">${c.price} kr</div>
+    const isOut = stock <= 0;
 
-          ${stock > 0
-            ? `<button onclick="addToCart('${key}')">🛒 Köp</button>`
-            : `<button disabled>Slutsåld</button>`
-          }
-        </div>
-      </div>
-    `;
+grid.innerHTML += `
+  <div class="card ${isOut ? 'out-of-stock' : ''}">
+
+    ${isOut ? `<div class="sold-out-badge">SOLD OUT</div>` : ""}
+
+    ${c.image ? `<img src="${c.image}" onclick="openImage('${c.image}')">` : ""}
+
+    <div class="card-body">
+      <b>${c.name}</b>
+      <div class="price">${c.price} kr</div>
+
+      ${!isOut 
+        ? `<button onclick="addToCart('${key}')">🛒 Köp</button>`
+        : ""
+      }
+    </div>
+  </div>
+`;
   });
 }
 /* SEARCH */
