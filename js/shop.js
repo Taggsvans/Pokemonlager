@@ -28,25 +28,20 @@ function render(){
 
     const name = c.name.toLowerCase();
     const category = (c.category || "").toLowerCase();
+    const stock = c.stock || 0; // ✅ FIX: definierad här
 
-    /* 🔍 SMART SEARCH */
     const matchesSearch =
       name.includes(search) ||
       category.includes(search) ||
-
-      // 🔥 synonymer
       (search.includes("pokemon") && category === "pokemon") ||
       (search.includes("poke") && category === "pokemon") ||
-
       (search.includes("one piece") && category === "onepiece") ||
       (search.includes("op") && category === "onepiece") ||
-
       (search.includes("booster") && category === "booster") ||
       (search.includes("pack") && category === "booster");
 
     if(!matchesSearch) return;
 
-    /* 📂 MENY FILTER */
     if(activeCategory !== "all" && c.category !== activeCategory) return;
 
     grid.innerHTML += `
@@ -55,7 +50,11 @@ function render(){
         <div class="card-body">
           <b>${c.name}</b>
           <div class="price">${c.price} kr</div>
-          <button onclick="addToCart('${key}')">🛒 Köp</button>
+
+          ${stock > 0
+            ? `<button onclick="addToCart('${key}')">🛒 Köp</button>`
+            : `<button disabled>Slutsåld</button>`
+          }
         </div>
       </div>
     `;

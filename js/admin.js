@@ -1,11 +1,5 @@
-/* =========================
-   GLOBAL
-========================= */
 let currentImage = "";
 
-/* =========================
-   LOGIN
-========================= */
 function login(){
   const pass = document.getElementById("pass")?.value;
 
@@ -23,8 +17,7 @@ function openAdmin(){
 
   loadOrders();
   showTab("add");
-
-  renderAdminCards(); // 🔥 viktigt
+  renderAdminCards();
 }
 
 function logout(){
@@ -32,61 +25,52 @@ function logout(){
   location.reload();
 }
 
-/* AUTO LOGIN */
 document.addEventListener("DOMContentLoaded", ()=>{
   if(localStorage.getItem("isAdmin") === "true"){
     openAdmin();
   }
 });
 
-/* =========================
-   TABS
-========================= */
 function showTab(tab){
   document.querySelectorAll(".tab").forEach(t=>t.style.display="none");
   document.getElementById("tab-"+tab).style.display="block";
 
   if(tab === "manage"){
-    renderAdminCards(); // 🔥 viktigt
+    renderAdminCards();
   }
 }
 
 /* =========================
-   ADD CARD
+   ADD CARD (MED STOCK)
 ========================= */
 function addCard(){
   const name = document.getElementById("name").value.trim();
   const price = parseFloat(document.getElementById("price").value) || 0;
+  const stock = parseInt(document.getElementById("stock").value) || 0;
 
   if(!name) return alert("Skriv namn!");
 
   const id = Date.now();
 
-  // 📦 KATEGORI LOGIK
   let category = "uncategorized";
 
-  if(document.getElementById("catPokemon").checked){
-    category = "pokemon";
-  }
-  else if(document.getElementById("catOnePiece").checked){
-    category = "onepiece";
-  }
-  else if(document.getElementById("catBooster").checked){
-    category = "booster";
-  }
+  if(document.getElementById("catPokemon").checked) category = "pokemon";
+  else if(document.getElementById("catOnePiece").checked) category = "onepiece";
+  else if(document.getElementById("catBooster").checked) category = "booster";
 
   cards[id] = {
     name,
     price,
     image: currentImage || "",
-    category: category   // ⭐ VIKTIGT
+    category,
+    stock
   };
 
   db.ref("cards").set(cards);
 
-  // reset form
   document.getElementById("name").value = "";
   document.getElementById("price").value = "";
+  document.getElementById("stock").value = "";
   document.getElementById("imageInput").value = "";
 
   document.getElementById("catPokemon").checked = false;
@@ -96,9 +80,7 @@ function addCard(){
   currentImage = "";
 }
 
-/* =========================
-   IMAGE UPLOAD
-========================= */
+/* IMAGE */
 document.addEventListener("change", e=>{
   if(e.target.id === "imageInput"){
     const file = e.target.files[0];
@@ -110,9 +92,7 @@ document.addEventListener("change", e=>{
   }
 });
 
-/* =========================
-   RENDER ADMIN CARDS
-========================= */
+/* ADMIN RENDER */
 function renderAdminCards(){
   const box = document.getElementById("adminCards");
   if(!box) return;
@@ -135,6 +115,7 @@ function renderAdminCards(){
         <div class="admin-fields">
           <input value="${c.name}" onchange="editCard('${key}','name',this.value)">
           <input type="number" value="${c.price}" onchange="editCard('${key}','price',this.value)">
+          <input type="number" value="${c.stock || 0}" onchange="editCard('${key}','stock',this.value)">
         </div>
 
         <button class="delete-btn" onclick="deleteCard('${key}')">🗑</button>
@@ -144,11 +125,8 @@ function renderAdminCards(){
   });
 }
 
-/* =========================
-   EDIT / DELETE
-========================= */
 function editCard(key, field, value){
-  if(field === "price"){
+  if(field === "price" || field === "stock"){
     value = parseFloat(value) || 0;
   }
 
@@ -162,12 +140,3 @@ function deleteCard(key){
     db.ref("cards").set(cards);
   }
 }
-
-/* =========================
-   SEARCH ADMIN
-========================= */
-document.addEventListener("input", e=>{
-  if(e.target.id === "adminSearch"){
-    renderAdminCards();
-  }
-});

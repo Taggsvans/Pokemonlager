@@ -44,9 +44,10 @@ function checkout(){
 }
 
 /* =========================
-   CONFIRM ORDER
+   CONFIRM ORDER (UPPDATERAD LOGIK LIGGER I LIVE CHECK I ANDRA FILER)
 ========================= */
-function confirmCheckout(){
+async function confirmCheckout(){
+
   const name = document.getElementById("custName").value.trim();
   const email = document.getElementById("custEmail").value.trim();
   const phone = document.getElementById("custPhone").value.trim();
@@ -59,6 +60,27 @@ function confirmCheckout(){
   if(!name || !email || !phone || !address || !zip || !city){
     alert("Fyll i alla fält");
     return;
+  }
+
+  /* =========================
+     🔥 LIVE STOCK CHECK (KRITISK)
+     hämtas direkt från Firebase
+  ========================= */
+  const snap = await db.ref("cards").once("value");
+  const latestCards = snap.val() || {};
+
+  for(const item of cart){
+    const product = latestCards[item.id];
+
+    if(!product){
+      alert("Produkt finns inte längre");
+      return;
+    }
+
+    if((product.stock || 0) < item.qty){
+      alert(`Slutsålt: ${product.name}`);
+      return;
+    }
   }
 
   const subtotal = cart.reduce((s,i)=> s + (i.price * (i.qty || 1)), 0);
@@ -79,6 +101,7 @@ function confirmCheckout(){
       country
     },
     items: cart.map(i => ({
+      id: i.id,
       name: i.name,
       price: i.price,
       image: i.image,
@@ -91,6 +114,22 @@ function confirmCheckout(){
 
   db.ref("orders/" + id).set(order);
 
+  /* =========================
+     🔥 MINSKA LAGER
+  ========================= */
+  cart.forEach(item=>{
+    const product = cards[item.id];
+    if(product){
+      product.stock -= item.qty;
+      if(product.stock < 0) product.stock = 0;
+    }
+  });
+
+  db.ref("cards").set(cards);
+
+  /* =========================
+     RESET CART
+  ========================= */
   cart = [];
   saveCart();
   updateCart();
@@ -121,7 +160,6 @@ document.addEventListener("input", e=>{
    THEME
 ========================= */
 function toggleTheme(){
-  // 🔥 säkerhet: bara shop får toggla
   if(!document.body.classList.contains("shop") && 
      localStorage.getItem("theme") !== "light"){
     document.body.classList.add("shop");
@@ -134,8 +172,8 @@ function toggleTheme(){
 
   updateThemeIcon();
 }
+
 function loadTheme(){
-  // 🔥 kör bara på shop-sidan
   if(!document.body.classList.contains("shop")) return;
 
   const saved = localStorage.getItem("theme");
@@ -151,25 +189,16 @@ function loadTheme(){
 
 document.addEventListener("DOMContentLoaded", loadTheme);
 
-/* =========================
-   ICON DarkmodeToggle
-========================= */
-
 function updateThemeIcon(){
   const btn = document.getElementById("themeBtn");
   if(!btn) return;
 
-  if(document.body.classList.contains("shop")){
-    btn.innerText = "☀️"; // dark mode → visa sol
-  } else {
-    btn.innerText = "🌙"; // light mode → visa måne
-  }
+  btn.innerText = document.body.classList.contains("shop") ? "☀️" : "🌙";
 }
 
 /* =========================
-   Hamburgarmeny
+   MENU
 ========================= */
-
 function toggleMenu(){
   const menu = document.getElementById("menu");
   const overlay = document.getElementById("menuOverlay");
