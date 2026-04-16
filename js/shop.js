@@ -8,6 +8,10 @@ let activeCategory = "all";
 function setCategory(cat){
   activeCategory = cat;
   render();
+
+  if(typeof closeMenu === "function"){
+    closeMenu(); // 🔥 stäng menyn automatiskt
+  }
 }
 
 function render(){
@@ -22,10 +26,27 @@ function render(){
     const c = cards[key];
     if(!c?.name) return;
 
-    // 🔍 search filter
-    if(!c.name.toLowerCase().includes(search)) return;
+    const name = c.name.toLowerCase();
+    const category = (c.category || "").toLowerCase();
 
-    // 📂 category filter (HÄR ÄR MAGICEN)
+    /* 🔍 SMART SEARCH */
+    const matchesSearch =
+      name.includes(search) ||
+      category.includes(search) ||
+
+      // 🔥 synonymer
+      (search.includes("pokemon") && category === "pokemon") ||
+      (search.includes("poke") && category === "pokemon") ||
+
+      (search.includes("one piece") && category === "onepiece") ||
+      (search.includes("op") && category === "onepiece") ||
+
+      (search.includes("booster") && category === "booster") ||
+      (search.includes("pack") && category === "booster");
+
+    if(!matchesSearch) return;
+
+    /* 📂 MENY FILTER */
     if(activeCategory !== "all" && c.category !== activeCategory) return;
 
     grid.innerHTML += `

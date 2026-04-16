@@ -121,21 +121,50 @@ document.addEventListener("input", e=>{
    THEME
 ========================= */
 function toggleTheme(){
-  document.body.classList.toggle("dark");
+  // 🔥 säkerhet: bara shop får toggla
+  if(!document.body.classList.contains("shop") && 
+     localStorage.getItem("theme") !== "light"){
+    document.body.classList.add("shop");
+  } else {
+    document.body.classList.toggle("shop");
+  }
 
-  const isDark = document.body.classList.contains("dark");
+  const isDark = document.body.classList.contains("shop");
   localStorage.setItem("theme", isDark ? "dark" : "light");
-}
 
+  updateThemeIcon();
+}
 function loadTheme(){
+  // 🔥 kör bara på shop-sidan
+  if(!document.body.classList.contains("shop")) return;
+
   const saved = localStorage.getItem("theme");
 
-  if(saved === "dark"){
-    document.body.classList.add("dark");
+  if(saved === null || saved === "dark"){
+    document.body.classList.add("shop");
+  } else {
+    document.body.classList.remove("shop");
   }
+
+  updateThemeIcon();
 }
 
 document.addEventListener("DOMContentLoaded", loadTheme);
+
+/* =========================
+   ICON DarkmodeToggle
+========================= */
+
+function updateThemeIcon(){
+  const btn = document.getElementById("themeBtn");
+  if(!btn) return;
+
+  if(document.body.classList.contains("shop")){
+    btn.innerText = "☀️"; // dark mode → visa sol
+  } else {
+    btn.innerText = "🌙"; // light mode → visa måne
+  }
+}
 
 /* =========================
    Hamburgarmeny
@@ -147,8 +176,8 @@ function toggleMenu(){
 
   if(!menu || !overlay) return;
 
-  menu.classList.toggle("hidden");
-  overlay.classList.toggle("hidden");
+  menu.classList.toggle("open");
+  overlay.classList.toggle("show");
 }
 
 function closeMenu(){
@@ -157,6 +186,6 @@ function closeMenu(){
 
   if(!menu || !overlay) return;
 
-  menu.classList.add("hidden");
-  overlay.classList.add("hidden");
+  menu.classList.remove("open");
+  overlay.classList.remove("show");
 }

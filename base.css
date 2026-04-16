@@ -104,14 +104,19 @@ input[type="file"]:hover{
    DARK MODE
 ========================= */
 
+/* =========================
+   DARK MODE (SHOP ONLY)
+========================= */
+
 :root{
-  --bg:#f6f7fb;
+  --bg:#ffffff;
   --text:#1e293b;
   --card:#ffffff;
   --border:#e5e7eb;
 }
 
-.dark{
+/* 🔥 endast shop påverkas */
+body.shop{
   --bg:#1a1c1a;
   --text:#e2e8f0;
   --card:#112b13;

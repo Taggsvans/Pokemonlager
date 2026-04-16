@@ -1,7 +1,6 @@
 /* =========================
    TOPBAR
 ========================= */
-
 .topbar{
   display:grid;
   grid-template-columns: 60px 1fr 120px;
@@ -13,7 +12,6 @@
   z-index:100;
 }
 
-/* LOGO CENTRERAD */
 .logo{
   font-weight:900;
   color:var(--text);
@@ -21,7 +19,6 @@
   font-size:18px;
 }
 
-/* RIGHT SIDE BUTTONS */
 .topbar-right{
   display:flex;
   justify-content:flex-end;
@@ -29,11 +26,10 @@
 }
 
 .topbar button{
-background-color: transparent;
-font-size: 1.2em;
-color: var(--text);
+  background:transparent;
+  font-size:1.2em;
+  color:var(--text);
 }
-
 
 /* =========================
    HERO IMAGE
@@ -43,7 +39,7 @@ color: var(--text);
   height:100%;
   object-fit:cover;
   display:block;
-  margin-top: 25px;
+  margin-top:25px;
 }
 
 /* =========================
@@ -53,7 +49,7 @@ color: var(--text);
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
   gap:14px;
-  margin-top: 35px;
+  margin-top:35px;
 }
 
 .card{
@@ -104,44 +100,83 @@ color: var(--text);
 }
 
 /* =========================
-   Hamburgermeny
+   HAMBURGER MENU
 ========================= */
 .menu{
-    position: fixed;
-    top: 75px;
-    left: 10px;
-    background: #1b203be3;
-    padding: 10px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    z-index: 1000;
-    height: 100%;
-    width: 310px;
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:280px;
+
+  background:var(--card);
+  padding:20px;
+
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+
+  transform:translateX(-100%);
+  transition:transform 0.3s ease;
+
+  z-index:1000;
 }
 
-.menu button{
-    background-color: transparent;
-    font-size:26px;
+/* öppet läge */
+.menu.open{
+  transform:translateX(0);
 }
 
+/* overlay + blur */
 .menu-overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.35);
+
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(5px);
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:opacity 0.3s ease;
+
   z-index:900;
 }
 
-.hidden{
-  display:none;
+.menu-overlay.show{
+  opacity:1;
+  pointer-events:auto;
 }
 
-.hidden{
-  display:none;
+/* HEADER (X-knapp rad) */
+.menu-header{
+  width:100%;
+  display:flex;
+  justify-content:flex-start; /* 🔥 längst till vänster */
 }
 
+/* X-knapp */
+.close-menu{
+  background:none;
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+  color:var(--text);
+}
+
+/* menyknappar */
+.menu button{
+  background:none;
+  border:none;
+  font-size:1.5em;
+  color:var(--text);
+}
+
+.menu button:hover{
+  opacity:0.7;
+}
+
+/* hamburger ikon */
 .hamburger{
   font-size:26px;
   cursor:pointer;
@@ -150,7 +185,6 @@ color: var(--text);
 /* =========================
    FOOTER
 ========================= */
-
 .footer{
   margin-top:40px;
   padding:30px 15px 10px;
@@ -164,6 +198,10 @@ color: var(--text);
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:20px;
+}
+
+.footer-section{
+  text-align:center;
 }
 
 .footer-section h3,
@@ -193,8 +231,4 @@ color: var(--text);
   margin-top:20px;
   font-size:13px;
   opacity:0.6;
-}
-
-.footer-section{
-    text-align: center;
 }
