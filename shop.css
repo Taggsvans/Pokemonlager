@@ -1,146 +1,234 @@
-<!DOCTYPE html>
-<html lang="sv">
-<head>
-<meta charset="UTF-8">
-<link rel="icon" type="image/png" href="favicon.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EKEM CARDS</title>
+/* =========================
+   TOPBAR
+========================= */
+.topbar{
+  display:grid;
+  grid-template-columns: 60px 1fr 120px;
+  align-items:center;
+  padding:14px;
+  background: var(--card);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+.logo{
+  font-weight:900;
+  color:var(--text);
+  text-align:center;
+  font-size:18px;
+}
 
-<script src="js/firebase.js"></script>
-<script src="js/cart.js"></script>
-<script src="js/shop.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/app.js"></script>
+.topbar-right{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
 
-<link rel="stylesheet" href="cart.css">
-<link rel="stylesheet" href="base.css">
-<link rel="stylesheet" href="shop.css">
-</head>
+.topbar button{
+  background:transparent;
+  font-size:1.2em;
+  color:var(--text);
+}
 
-<body class="shop">
+/* =========================
+   HERO IMAGE
+========================= */
+.EkemCards{
+  width:100vw;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  margin-top:25px;
+}
 
-<!-- ================= TOPBAR ================= -->
-<div class="topbar">
+/* =========================
+   GRID
+========================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:14px;
+  margin-top:35px;
+}
 
-  <!-- HAMBURGER -->
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
+.card{
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,0.05);
+  transition:0.2s;
+}
 
-  <!-- LOGO -->
-  <div class="logo">EKEM CARDS</div>
+.card:hover{
+  transform:translateY(-3px);
+}
 
-  <!-- RIGHT -->
-  <div class="topbar-right">
-    <button id="themeBtn" onclick="toggleTheme()">🌙</button>
-    <button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
-  </div>
+.card img{
+  width:100%;
+  height:294px;
+  object-fit:cover;
+}
 
-</div>
+.card-body{
+  padding:12px;
+}
 
-<!-- ================= HAMBURGER MENU ================= -->
-<div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
+.price{
+  color:#16a34a;
+  font-weight:700;
+  margin:6px 0;
+}
 
-<div id="menu" class="menu">
-    <div class="menu-header">
-    <button class="close-menu" onclick="closeMenu()">✖</button>
-  </div>
-  <button onclick="setCategory('all')">Alla</button>
-  <button onclick="setCategory('pokemon')">Pokémon</button>
-  <button onclick="setCategory('onepiece')">One Piece</button>
-  <button onclick="setCategory('booster')">Booster</button>
-</div>
+/* =========================
+   MODAL
+========================= */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:300;
+}
 
-<!-- ================= HERO ================= -->
-<div class="hero">
-  <img class="EkemCards" src="EkemCards.png" alt="Banner">
-</div>
+.modal-box{
+  padding:20px;
+  border-radius:16px;
+  width:90%;
+  max-width:400px;
+}
 
-<!-- ================= SHOP GRID ================= -->
-<div class="container">
-  <input id="search" placeholder="🔍 Sök kort...">
-  <div id="grid" class="grid"></div>
-</div>
+/* =========================
+   HAMBURGER MENU
+========================= */
+.menu{
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:280px;
 
-<!-- ================= CART OVERLAY ================= -->
-<div id="cartOverlay" onclick="toggleCart()"></div>
+  background:var(--card);
+  padding:20px;
 
-<div id="cart" class="cart">
-  <div class="cart-header">
-    <h3>Varukorg</h3>
-    <button class="close-cart" onclick="toggleCart()">✖</button>
-  </div>
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 
-  <div id="cartItems"></div>
-  <div id="total"></div>
+  transform:translateX(-100%);
+  transition:transform 0.3s ease;
 
-  <div class="cart-actions">
-    <button class="clear" onclick="clearCart()">🧹 Töm kundvagn</button>
-    <button class="checkout" onclick="checkout()">Checkout</button>
-  </div>
-</div>
+  z-index:1000;
+}
 
-<!-- ================= CHECKOUT MODAL ================= -->
-<div id="modal" class="modal">
-  <div class="modal-box">
-    <h3>Checkout</h3>
+/* öppet läge */
+.menu.open{
+  transform:translateX(0);
+}
 
-    <input id="custName" placeholder="Fullständigt namn">
-    <input id="custEmail" placeholder="Email">
-    <input id="custPhone" placeholder="Telefon">
+/* overlay + blur */
+.menu-overlay{
+  position:fixed;
+  inset:0;
 
-    <input id="custAddress" placeholder="Adress">
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(5px);
 
-    <div style="display:flex; gap:8px;">
-      <input id="custZip" placeholder="Postnummer">
-      <input id="custCity" placeholder="Ort">
-    </div>
+  opacity:0;
+  pointer-events:none;
 
-    <input id="custCountry" placeholder="Land" value="Sverige">
+  transition:opacity 0.3s ease;
 
-    <div id="checkoutSummary"></div>
+  z-index:900;
+}
 
-    <button onclick="confirmCheckout()">Köp nu</button>
-    <button onclick="closeModal()">Avbryt</button>
-  </div>
-</div>
+.menu-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
 
-<!-- ================= IMAGE MODAL ================= -->
-<div id="imgModal" class="img-modal" onclick="closeImageModal()">
-  <img id="imgModalContent">
-</div>
+/* HEADER (X-knapp rad) */
+.menu-header{
+  width:100%;
+  display:flex;
+  justify-content:flex-start; /* 🔥 längst till vänster */
+}
 
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
+/* X-knapp */
+.close-menu{
+  background:none;
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+  color:var(--text);
+}
 
-  <div class="footer-content">
+/* menyknappar */
+.menu button{
+  background:none;
+  border:none;
+  font-size:1.5em;
+  color:var(--text);
+}
 
-    <div class="footer-section">
-      <h3>EKEM CARDS</h3>
-      <p>Köp samlarkort enkelt och säkert.</p>
-    </div>
+.menu button:hover{
+  opacity:0.7;
+}
 
-    <div class="footer-section">
-      <h4>Kontakt</h4>
-      <p>Email: ekemcards@gmail.com</p>
-      <p>Telefon: 070-123 45 67</p>
-    </div>
+/* hamburger ikon */
+.hamburger{
+  font-size:26px;
+  cursor:pointer;
+}
 
-    <div class="footer-section">
-      <h4>Följ oss</h4>
-      <a href="https://www.tiktok.com/@the.emberthal?is_from_webapp=1&sender_device=pc" target="_blank">
-        TikTok
-      </a>
-    </div>
+/* =========================
+   FOOTER
+========================= */
+.footer{
+  margin-top:40px;
+  padding:30px 15px 10px;
+  background:var(--card);
+  border-top:1px solid var(--border);
+}
 
-  </div>
+.footer-content{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
 
-  <div class="footer-bottom">
-    © 2026 EKEM CARDS sida skapad av Johan Rindstig
-  </div>
+.footer-section{
+  text-align:center;
+}
 
-</footer>
+.footer-section h3,
+.footer-section h4{
+  margin-bottom:8px;
+}
 
-</body>
-</html>
+.footer-section p{
+  font-size:14px;
+  opacity:0.8;
+}
+
+.footer-section a{
+  display:inline-block;
+  margin-top:5px;
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:600;
+}
+
+.footer-section a:hover{
+  text-decoration:underline;
+}
+
+.footer-bottom{
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+  opacity:0.6;
+}
