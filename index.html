@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="shop.css">
 </head>
 
-<body>
+<body class="shop">
 
 <!-- ================= TOPBAR ================= -->
 <div class="topbar">
@@ -33,20 +33,23 @@
 
   <!-- RIGHT -->
   <div class="topbar-right">
-    <button onclick="toggleTheme()">🌙</button>
+    <button id="themeBtn" onclick="toggleTheme()">🌙</button>
     <button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
   </div>
 
 </div>
 
 <!-- ================= HAMBURGER MENU ================= -->
-<div id="menuOverlay" class="menu-overlay hidden" onclick="closeMenu()"></div>
+<div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
 
-<div id="menu" class="menu hidden">
-  <button onclick="setCategory('all'); closeMenu();">Alla</button>
-  <button onclick="setCategory('pokemon'); closeMenu();">Pokémon</button>
-  <button onclick="setCategory('onepiece'); closeMenu();">One Piece</button>
-  <button onclick="setCategory('booster'); closeMenu();">Booster</button>
+<div id="menu" class="menu">
+    <div class="menu-header">
+    <button class="close-menu" onclick="closeMenu()">✖</button>
+  </div>
+  <button onclick="setCategory('all')">Alla</button>
+  <button onclick="setCategory('pokemon')">Pokémon</button>
+  <button onclick="setCategory('onepiece')">One Piece</button>
+  <button onclick="setCategory('booster')">Booster</button>
 </div>
 
 <!-- ================= HERO ================= -->
