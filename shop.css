@@ -7,7 +7,7 @@
   grid-template-columns: 60px 1fr 120px;
   align-items:center;
   padding:14px;
-  background: var(--bg);
+  background: var(--card);
   position:sticky;
   top:0;
   z-index:100;
@@ -52,10 +52,10 @@ color: var(--text);
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
   gap:14px;
+  margin-top: 20px;
 }
 
 .card{
-  background:white;
   border-radius:16px;
   overflow:hidden;
   box-shadow:0 6px 20px rgba(0,0,0,0.05);

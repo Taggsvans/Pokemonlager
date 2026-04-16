@@ -38,17 +38,21 @@ button:hover{
    INPUTS (MODERN)
 ========================= */
 input{
-  width:90%;
+  width:70%;
   padding:12px 14px;
-  margin:6px 0;
   border-radius:14px;
-  border:1px solid rgba(0,0,0,0.08);
-  background:white;
+  background:var(--card);
+  color:var(--text);
+  border: none;
   font-size:14px;
-  outline:none;
   transition:0.2s;
-  box-shadow:0 2px 10px rgba(0,0,0,0.03);
+  display: block;
+  margin: 20px auto;
+  text-align: center;
 }
+
+
+
 
 input::placeholder{
   color:#9ca3af;
@@ -108,9 +112,9 @@ input[type="file"]:hover{
 }
 
 .dark{
-  --bg:#0f172a;
+  --bg:#1a1c1a;
   --text:#e2e8f0;
-  --card:#1e293b;
+  --card:#112b13;
   --border:#334155;
 }
 
@@ -135,15 +139,5 @@ body{
 
 .modal-box{
   background:var(--card);
-}
-
-input{
-  background:var(--card);
-  color:var(--text);
-  border:1px solid var(--border);
-}
-
-.card-body{
-    color: black;
 }
 
