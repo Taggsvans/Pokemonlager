@@ -1,5 +1,8 @@
 let cart = loadCart();
 
+/* =========================
+   SAVE / LOAD
+========================= */
 function saveCart(){
   localStorage.setItem("cart", JSON.stringify(cart));
 }
@@ -12,7 +15,9 @@ function loadCart(){
   }
 }
 
-/* ADD TO CART MED STOCK */
+/* =========================
+   ADD TO CART
+========================= */
 function addToCart(key){
   const product = cards[key];
   if(!product) return;
@@ -41,6 +46,9 @@ function addToCart(key){
   updateCart();
 }
 
+/* =========================
+   UPDATE CART (MED FRAKT)
+========================= */
 function updateCart(){
   const box = document.getElementById("cartItems");
   if(!box) return;
@@ -70,11 +78,52 @@ function updateCart(){
     `;
   });
 
+  /* =========================
+     SHIPPING LOGIC (🔥 tillbaka)
+  ========================= */
+
+  const shipping = subtotal < 1500 && subtotal > 0 ? 55 : 0;
+  const total = subtotal + shipping;
+  const remaining = subtotal < 1500 ? (1500 - subtotal) : 0;
+
+  let shippingInfo = "";
+
+  if(subtotal === 0){
+    shippingInfo = "";
+  }
+  else if(subtotal < 1500){
+    shippingInfo = `
+      <div style="margin-top:10px; font-size:12px; color:#6b7280;">
+        Handla för <b>${remaining} kr</b> till för fri frakt!
+      </div>
+    `;
+  }
+  else{
+    shippingInfo = `
+      <div style="margin-top:10px; font-size:12px; color:#16a34a;">
+        🎉 Du har fri frakt!
+      </div>
+    `;
+  }
+
+  const summary = `
+    <hr>
+    <div>Subtotal: <b>${subtotal} kr</b></div>
+    <div>Frakt: <b>${shipping} kr</b></div>
+    <div><b>Total: ${total} kr</b></div>
+  `;
+
+  document.getElementById("total").innerHTML = shippingInfo + summary;
+
+  /* ========================= */
+
   document.getElementById("cartCount").innerText =
     cart.reduce((s,i)=>s+(i.qty||1),0);
 }
 
-/* MAX STOCK */
+/* =========================
+   CONTROLS
+========================= */
 function increaseQty(i){
   const item = cart[i];
   const product = cards[item.id];
@@ -110,6 +159,9 @@ function clearCart(){
   }
 }
 
+/* =========================
+   TOGGLE CART
+========================= */
 function toggleCart(){
   document.getElementById("cart")?.classList.toggle("open");
   document.getElementById("cartOverlay")?.classList.toggle("show");
