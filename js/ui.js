@@ -117,13 +117,23 @@ async function confirmCheckout(){
   /* =========================
      🔥 MINSKA LAGER
   ========================= */
-  cart.forEach(item=>{
-    const product = cards[item.id];
-    if(product){
-      product.stock -= item.qty;
-      if(product.stock < 0) product.stock = 0;
+  let failed = false;
+
+cart.forEach(item => {
+  db.ref("cards/" + item.id + "/stock").transaction(stock => {
+    if(stock >= item.qty){
+      return stock - item.qty;
+    } else {
+      failed = true;
+      return;
     }
   });
+});
+
+if(failed){
+  alert("En vara hann tyvärr ta slut innan du hann checka ut.");
+  return;
+}
 
   db.ref("cards").set(cards);
 
