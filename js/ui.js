@@ -228,3 +228,25 @@ function closeMenu(){
   menu.classList.remove("open");
   overlay.classList.remove("show");
 }
+
+/* =========================
+   Produktvy
+========================= */
+function openProduct(key){
+  const p = cards[key];
+  if(!p) return;
+
+  document.getElementById("pmImage").src = p.image || "";
+  document.getElementById("pmName").innerText = p.name;
+  document.getElementById("pmPrice").innerText = p.price + " kr";
+  document.getElementById("pmStock").innerText = "Lager: " + (p.stock || 0);
+  document.getElementById("pmDesc").innerText = p.description || "Ingen beskrivning";
+
+  document.getElementById("pmBtn").onclick = () => addToCart(key);
+
+  document.getElementById("productModal").style.display = "flex";
+}
+
+function closeProduct(){
+  document.getElementById("productModal").style.display = "none";
+}

@@ -26,30 +26,25 @@ function render(){
     const c = cards[key];
     if(!c?.name) return;
 
-    const name = c.name.toLowerCase();
-    const category = (c.category || "").toLowerCase();
-    const stock = c.stock || 0; // ✅ FIX: definierad här
+    // 🔍 search (inkl categories)
+    const categoryText = (c.categories || []).join(" ").toLowerCase();
 
-    const matchesSearch =
-      name.includes(search) ||
-      category.includes(search) ||
-      (search.includes("pokemon") && category === "pokemon") ||
-      (search.includes("poke") && category === "pokemon") ||
-      (search.includes("one piece") && category === "onepiece") ||
-      (search.includes("op") && category === "onepiece") ||
-      (search.includes("booster") && category === "booster") ||
-      (search.includes("pack") && category === "booster");
+    if(
+      !c.name.toLowerCase().includes(search) &&
+      !categoryText.includes(search)
+    ) return;
 
-    if(!matchesSearch) return;
+    // 📂 FILTER
+    if(activeCategory !== "all"){
+      if(!c.categories || !c.categories.includes(activeCategory)) return;
+    }
 
-    if(activeCategory !== "all" && c.category !== activeCategory) return;
-
-    const isOut = stock <= 0;
+  const isOut = (c.stock || 0) <= 0;
 
 grid.innerHTML += `
-  <div class="card ${isOut ? 'out-of-stock' : ''}">
+  <div class="card ${isOut ? "out-of-stock" : ""}">
 
-    ${isOut ? `<div class="sold-out-badge">SOLD OUT</div>` : ""}
+    ${isOut ? `<div class="sold-out-badge">SLUT</div>` : ""}
 
     ${c.image ? `<img src="${c.image}" onclick="openImage('${c.image}')">` : ""}
 
@@ -57,10 +52,12 @@ grid.innerHTML += `
       <b>${c.name}</b>
       <div class="price">${c.price} kr</div>
 
-      ${!isOut 
-        ? `<button onclick="addToCart('${key}')">🛒 Köp</button>`
-        : ""
+      ${
+        isOut
+          ? ""
+          : `<button onclick="openProduct('${key}')">Visa produkt</button>`
       }
+
     </div>
   </div>
 `;

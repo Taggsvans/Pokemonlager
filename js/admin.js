@@ -29,6 +29,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
   if(localStorage.getItem("isAdmin") === "true"){
     openAdmin();
   }
+
+  /* 🔥 FIX: SÖK LYSSNARE */
+  const input = document.getElementById("adminSearch");
+  if(input){
+    input.addEventListener("input", renderAdminCards);
+  }
 });
 
 function showTab(tab){
@@ -44,29 +50,48 @@ function showTab(tab){
    ADD CARD (MED STOCK)
 ========================= */
 function addCard(){
-  const name = document.getElementById("name").value.trim();
-  const price = parseFloat(document.getElementById("price").value) || 0;
+  const name = document.getElementById("name").value;
+  const price = document.getElementById("price").value;
+  const description = document.getElementById("description").value;
   const stock = parseInt(document.getElementById("stock").value) || 0;
+  const file = document.getElementById("imageInput").files[0];
 
-  if(!name) return alert("Skriv namn!");
+  if(!name || !price){
+    alert("Fyll i namn och pris");
+    return;
+  }
 
-  const id = Date.now();
+  const categories = [];
 
-  let category = "uncategorized";
+  if(document.getElementById("catPokemon").checked) categories.push("pokemon");
+  if(document.getElementById("catOnePiece").checked) categories.push("onepiece");
+  if(document.getElementById("catBooster").checked) categories.push("booster");
+  if(document.getElementById("catSingel").checked) categories.push("singel");
 
-  if(document.getElementById("catPokemon").checked) category = "pokemon";
-  else if(document.getElementById("catOnePiece").checked) category = "onepiece";
-  else if(document.getElementById("catBooster").checked) category = "booster";
+  const id = db.ref("cards").push().key;
 
-  cards[id] = {
-    name,
-    price,
-    image: currentImage || "",
-    category,
-    stock
-  };
+  if(file){
+    const reader = new FileReader();
+    reader.onload = e=>{
+      db.ref("cards/" + id).set({
+        name,
+        price: Number(price),
+        stock,
+        categories,
+        image: e.target.result
+      });
+    };
+    reader.readAsDataURL(file);
+  } else {
+    db.ref("cards/" + id).set({
+      name,
+      price: Number(price),
+      stock,
+      categories
+    });
+  }
 
-  db.ref("cards").set(cards);
+  alert("Kort tillagt!");
 
   document.getElementById("name").value = "";
   document.getElementById("price").value = "";
@@ -76,8 +101,7 @@ function addCard(){
   document.getElementById("catPokemon").checked = false;
   document.getElementById("catOnePiece").checked = false;
   document.getElementById("catBooster").checked = false;
-
-  currentImage = "";
+  document.getElementById("catSingel").checked = false;
 }
 
 /* IMAGE */
@@ -92,7 +116,9 @@ document.addEventListener("change", e=>{
   }
 });
 
-/* ADMIN RENDER */
+/* =========================
+   ADMIN RENDER (FIXAD SÖK)
+========================= */
 function renderAdminCards(){
   const box = document.getElementById("adminCards");
   if(!box) return;
@@ -105,7 +131,15 @@ function renderAdminCards(){
     const c = cards[key];
     if(!c?.name) return;
 
-    if(!c.name.toLowerCase().includes(search)) return;
+    /* 🔥 FIX: SÖK I NAMN + KATEGORI */
+    const categoryText = (c.categories || []).join(" ").toLowerCase();
+
+    if(
+      !c.name.toLowerCase().includes(search) &&
+      !categoryText.includes(search)
+    ) return;
+
+    const categories = c.categories || [];
 
     box.innerHTML += `
       <div class="admin-card">
@@ -116,6 +150,39 @@ function renderAdminCards(){
           <input value="${c.name}" onchange="editCard('${key}','name',this.value)">
           <input type="number" value="${c.price}" onchange="editCard('${key}','price',this.value)">
           <input type="number" value="${c.stock || 0}" onchange="editCard('${key}','stock',this.value)">
+          <input value="${c.description || ""}" onchange="editCard('${key}','description',this.value)">
+        </div>
+
+        <div class="admin-categories">
+
+          <label>
+            <input type="checkbox"
+              ${categories.includes("pokemon") ? "checked" : ""}
+              onchange="toggleCategory('${key}','pokemon',this.checked)">
+            Pokémon
+          </label>
+
+          <label>
+            <input type="checkbox"
+              ${categories.includes("onepiece") ? "checked" : ""}
+              onchange="toggleCategory('${key}','onepiece',this.checked)">
+            One Piece
+          </label>
+
+          <label>
+            <input type="checkbox"
+              ${categories.includes("booster") ? "checked" : ""}
+              onchange="toggleCategory('${key}','booster',this.checked)">
+            Booster
+          </label>
+
+          <label>
+            <input type="checkbox"
+              ${categories.includes("singel") ? "checked" : ""}
+              onchange="toggleCategory('${key}','singel',this.checked)">
+            Singel
+          </label>
+
         </div>
 
         <button class="delete-btn" onclick="deleteCard('${key}')">🗑</button>
@@ -137,6 +204,26 @@ function editCard(key, field, value){
 function deleteCard(key){
   if(confirm("Ta bort kort?")){
     delete cards[key];
-    db.ref("cards").set(cards);
+
+    db.ref("cards").set(cards).then(()=>{
+      renderAdminCards();
+    });
   }
+}
+
+function toggleCategory(key, category, checked){
+  const card = cards[key];
+  if(!card) return;
+
+  if(!card.categories) card.categories = [];
+
+  if(checked){
+    if(!card.categories.includes(category)){
+      card.categories.push(category);
+    }
+  } else {
+    card.categories = card.categories.filter(c => c !== category);
+  }
+
+  db.ref("cards").set(cards);
 }

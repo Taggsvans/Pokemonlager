@@ -26,7 +26,7 @@ function addToCart(key){
   const currentQty = existing ? existing.qty : 0;
 
   if((product.stock || 0) <= currentQty){
-    alert("Hoppsan, det verkar som om någon hann före. Den här produkten är för tillfället slut :(");
+    alert("Hoppsan, har någon hunnit före, eller har du redan lagt den i kundvagnen? Vi har tyvärr inte fler av den här produkten :(");
     return;
   }
 
