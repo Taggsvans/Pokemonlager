@@ -41,7 +41,6 @@ input{
   width:70%;
   padding:12px 14px;
   border-radius:14px;
-  background:var(--card);
   color:var(--text);
   border: none;
   font-size:14px;
@@ -117,9 +116,9 @@ input[type="file"]:hover{
 
 /* 🔥 endast shop påverkas */
 body.shop{
-  --bg:#1a1c1a;
+  --bg:#ffdead;
   --text:#e2e8f0;
-  --card:#112b13;
+  --card:#013301;
   --border:#334155;
 }
 
@@ -136,6 +135,7 @@ body{
 
 .card{
   background:var(--card);
+  color: #ffd700;
 }
 
 .cart{
