@@ -54,23 +54,27 @@
     <input id="stock" type="number" placeholder="Antal i lager">
     <input type="file" id="imageInput">
 
-   <h4>Kategori</h4>
+<h4>Kategori</h4>
 
-<label>
-  <input type="checkbox" id="catPokemon"> Pokémon
-</label>
+<div class="category-row">
+  <input type="checkbox" id="catPokemon">
+  <label for="catPokemon">Pokémon</label>
+</div>
 
-<label>
-  <input type="checkbox" id="catOnePiece"> One Piece
-</label>
+<div class="category-row">
+  <input type="checkbox" id="catOnePiece">
+  <label for="catOnePiece">One Piece</label>
+</div>
 
-<label>
-  <input type="checkbox" id="catBooster"> Booster Pack
-</label>
+<div class="category-row">
+  <input type="checkbox" id="catBooster">
+  <label for="catBooster">Booster Pack</label>
+</div>
 
-<label>
-  <input type="checkbox" id="catSingel"> Singlar
-</label>
+<div class="category-row">
+  <input type="checkbox" id="catSingel">
+  <label for="catSingel">Singlar</label>
+</div>
     <button onclick="addCard()">Lägg till</button>
   </div>
 
