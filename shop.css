@@ -1,26 +1,33 @@
 /* =========================
    TOPBAR
 ========================= */
-.topbar{
-  display:grid;
-  grid-template-columns: 60px 1fr 120px;
-  align-items:center;
-  padding:14px;
+.toppbarcontainer{
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+}
 
-  background-image: url("test.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+#headerbild {
+    position: absolute;
+    top: 0px;
+    width: 103%;
+    height: auto;
+}
 
-  position:sticky;
-  top:0;
-  z-index:100;
+.topbar {
+  position: relative;
+    display: grid;
+    grid-template-columns: 60px 1fr 120px;
+    align-items: center;
+    height: 102px;
+    z-index: 100;
+    padding: 4px;
 }
 .logo{
-  font-weight:900;
-  color:var(--text);
+  font-weight:700;
+  color:rgb(10, 122, 0);
   text-align:center;
-  font-size:18px;
+  font-size:1.3em;
 }
 
 .topbar-right{
@@ -30,7 +37,7 @@
 }
 
 .topbar button{
-  background:transparent;
+  background:rgba(51, 53, 51, 0.616);
   font-size:1.2em;
   color:var(--text);
 }
@@ -43,7 +50,7 @@
   height:100%;
   object-fit:cover;
   display:block;
-  margin-top:25px;
+  margin-top:100px;
 }
 
 /* =========================
@@ -185,6 +192,8 @@
   font-size:26px;
   cursor:pointer;
   text-align: center;
+  background: rgba(51, 53, 51, 0.616);
+  border-radius: 12px;
 }
 
 /* =========================

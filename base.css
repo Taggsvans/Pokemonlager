@@ -38,10 +38,9 @@ button:hover{
    INPUTS (MODERN)
 ========================= */
 input{
-   width:70%;
+  width:70%;
   padding:12px 14px;
   border-radius:14px;
-  color:var(--text);
   border: none;
   font-size:14px;
   transition:0.2s;
@@ -124,11 +123,6 @@ body.shop{
 body{
   background:var(--bg);
   color:var(--text);
-}
-
-.topbar{
-  background:var(--card);
-  border-bottom:1px solid var(--border);
 }
 
 .card{

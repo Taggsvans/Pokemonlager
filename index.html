@@ -23,6 +23,8 @@
 <body class="shop">
 
 <!-- ================= TOPBAR ================= -->
+ <div class="toppbarcontainer">
+  <img id="headerbild" src="headerimg.png" alt="HeaderimgEKEMLOGO">
 <div class="topbar">
 
   <!-- HAMBURGER -->
@@ -38,7 +40,7 @@
   </div>
 
 </div>
-
+</div>
 <!-- ================= HAMBURGER MENU ================= -->
 <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
 
@@ -110,6 +112,24 @@
 <!-- ================= IMAGE MODAL ================= -->
 <div id="imgModal" class="img-modal" onclick="closeImageModal()">
   <img id="imgModalContent">
+</div>
+
+<!-- ================= Produktvy ================= -->
+<div id="productModal" class="modal" onclick="closeProduct()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+
+    <img id="pmImage" style="width:100%; border-radius:12px;">
+
+    <h2 id="pmName"></h2>
+    <div id="pmPrice"></div>
+    <div id="pmStock"></div>
+
+    <p id="pmDesc"></p>
+
+    <button id="pmBtn">Lägg i kundvagn</button>
+    <button onclick="closeProduct()">Stäng</button>
+
+  </div>
 </div>
 
 <!-- ================= FOOTER ================= -->
