@@ -114,85 +114,98 @@ function generateReceiptPDF(order){
   const c = order.customer || {};
 
   /* =========================
-     LOGGA (CENTRERAD)
+     LOGGA (FIXAD)
   ========================= */
 
-  const logo = "Ekemcards.png"; // se till att filen finns!
+  const img = new Image();
+  img.src = "EkemCards.png"; // ⚠️ måste matcha exakt filnamn
 
-  const imgWidth = 80;
-  const imgHeight = 22;
+  img.onload = () => {
 
-  doc.addImage(
-    logo,
-    "PNG",
-    pageWidth/2 - imgWidth/2,
-    y,
-    imgWidth,
-    imgHeight
-  );
+    const imgWidth = 80;
+    const imgHeight = 22;
 
-  y += imgHeight + 10;
+    doc.addImage(
+      img,
+      "PNG",
+      pageWidth/2 - imgWidth/2,
+      y,
+      imgWidth,
+      imgHeight
+    );
 
-  /* =========================
-     HEADER
-  ========================= */
+    y += imgHeight + 10;
 
-  center("KVITTO", 12);
-  center("Order ID: " + order.id, 10);
+    /* =========================
+       HEADER
+    ========================= */
 
-  const now = new Date();
-  const formatted =
-    now.toLocaleDateString("sv-SE") + " " +
-    now.toLocaleTimeString("sv-SE", {hour:'2-digit', minute:'2-digit'});
+    center("KVITTO", 12);
+    center("Order ID: " + order.id, 10);
 
-  center(formatted, 10);
+    const now = new Date();
+    const formatted =
+      now.toLocaleDateString("sv-SE") + " " +
+      now.toLocaleTimeString("sv-SE", {hour:'2-digit', minute:'2-digit'});
 
-  line();
+    center(formatted, 10);
 
-  /* =========================
-     CUSTOMER
-  ========================= */
+    line();
 
-  center("KUNDINFORMATION", 12);
+    /* =========================
+       CUSTOMER
+    ========================= */
 
-  center("Namn: " + (c.name || "-"));
-  center("Email: " + (c.email || "-"));
-  center("Telefon: " + (c.phone || "-"));
-  center("Adress: " + (c.address || "-"));
-  center("Postnummer: " + (c.zip || "-"));
-  center("Ort: " + (c.city || "-"));
-  center("Land: " + (c.country || "-"));
+    center("KUNDINFORMATION", 12);
 
-  line();
+    center("Namn: " + (c.name || "-"));
+    center("Email: " + (c.email || "-"));
+    center("Telefon: " + (c.phone || "-"));
+    center("Adress: " + (c.address || "-"));
+    center("Postnummer: " + (c.zip || "-"));
+    center("Ort: " + (c.city || "-"));
+    center("Land: " + (c.country || "-"));
 
-  /* =========================
-     ITEMS
-  ========================= */
+    line();
 
-  center("PRODUKTER", 12);
+    /* =========================
+       ITEMS
+    ========================= */
 
-  let total = 0;
+    center("PRODUKTER", 12);
 
-  (order.items || []).forEach(item => {
-    const qty = item.qty || 1;
-    const price = item.price || 0;
+    let total = 0;
 
-    center(`${item.name} x${qty} = ${price * qty} kr`, 10);
-    total += price * qty;
-  });
+    (order.items || []).forEach(item => {
+      const qty = item.qty || 1;
+      const price = item.price || 0;
 
-  line();
+      center(`${item.name} x${qty} = ${price * qty} kr`, 10);
+      total += price * qty;
+    });
 
-  /* =========================
-     TOTAL
-  ========================= */
+    line();
 
-  center("SUBTOTAL: " + (order.subtotal || total) + " kr", 10);
-  center("FRAKT: " + (order.shipping || 0) + " kr", 10);
-  center("TOTAL: " + order.total + " kr", 14);
+    /* =========================
+       TOTAL
+    ========================= */
 
-  y += 4;
-  center("Tack för ditt köp!", 11);
+    center("SUBTOTAL: " + (order.subtotal || total) + " kr", 10);
+    center("FRAKT: " + (order.shipping || 0) + " kr", 10);
+    center("TOTAL: " + order.total + " kr", 14);
 
-  doc.save(`kvitto-${order.id}.pdf`);
+    y += 4;
+    center("Tack för ditt köp!", 11);
+
+    doc.save(`kvitto-${order.id}.pdf`);
+  };
+
+  /* ⚠️ OM bilden inte laddas */
+  img.onerror = () => {
+    console.error("Logga kunde inte laddas – PDF skapas utan bild");
+
+    center("KVITTO", 12);
+    center("Order ID: " + order.id, 10);
+    doc.save(`kvitto-${order.id}.pdf`);
+  };
 }
